@@ -40,6 +40,11 @@ class Fighter implements Renderable{
         head.lineWidth = 0.5;
     }
 
+    void moveTo(num x, num y) {
+        moveToX = x;
+        moveToY = y;
+    }
+
     void render(CanvasRenderingContext2D context2D, num delta) {
         _renderBody(context2D, delta);
         _renderOrientationStroke(context2D, delta);

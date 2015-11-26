@@ -11,6 +11,8 @@ class Game extends Engine {
 
     void _render(num time) {
         _clearCanvas();
+        context2D.fillStyle = "#D0D0D0";
+        context2D.fillRect(0,0,x,y);
     	renderables.forEach((renderable){
             renderable.render(context2D, time);
     	});

@@ -23,4 +23,6 @@ void main() {
     new KeyboardSteering(opponent, up: 38, down: 40, left: 37, right:39, fire: 96);
 
     game.start();
+    user.moveTo(100, 100);
+    opponent.moveTo(200, 200);
 }
