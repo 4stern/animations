@@ -3,7 +3,10 @@ library animations;
 import 'dart:html';
 import 'dart:math' as Math;
 // import 'dart:async';
-
+part 'models/Renderable.dart';
+part 'models/Bullet.dart';
+part 'models/Circle.dart';
+part 'models/Fighter.dart';
 part 'Engine.dart';
 part 'Game.dart';
 
@@ -11,6 +14,8 @@ void main() {
     Game game = new Game(
         x: 500, y: 500
     );
+    game.addFighter(100, 100);
+    game.addFighter(200, 200);
 
     DivElement rotationValue = new DivElement();
     ButtonElement fire = new ButtonElement();
@@ -32,6 +37,5 @@ void main() {
     document.body.nodes.add(rotationValue);
     document.body.nodes.add(fire);
 
-    game.fighter.toRotate(0);
     game.start();
 }
