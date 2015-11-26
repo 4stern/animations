@@ -42,6 +42,11 @@ class Fighter implements Renderable{
         _renderOrientationStroke(context2D, delta);
         _renderBullets(context2D, delta);
 
+        handleRotateLeft();
+        handleRotateRight();
+        handleMoveForward();
+        handleMoveBackward();
+
         _calculateRotating(delta);
         _calculateMoving(delta);
     }
@@ -145,22 +150,52 @@ class Fighter implements Renderable{
         print('toRotate: '+rotateTo.toString());
     }
 
-    void rotateLeft() {
-        rotateTo = rotate - 5;
-    }
-    void rotateRight() {
-        rotateTo = rotate + 5;
+    bool permanentRotateLeft = false;
+    bool permanentRotateRight = false;
+    bool permanentMoveForward = false;
+    bool permanentMoveBackward = false;
+
+    void rotateLeft(bool start) {
+        permanentRotateLeft = start;
     }
 
-    void moveForward() {
-        num rad = (2*Math.PI*rotate) / 360;
-        moveToX = x+((moveSpeed)*Math.cos(rad));
-        moveToY = y+((moveSpeed)*Math.sin(rad));
+    void rotateRight(bool start) {
+        permanentRotateRight = start;
     }
 
-    void moveBackward() {
-        num rad = (2*Math.PI*rotate) / 360;
-        moveToX = x-((moveSpeed)*Math.cos(rad));
-        moveToY = y-((moveSpeed)*Math.sin(rad));
+    void moveForward(bool start) {
+        permanentMoveForward = start;
+    }
+
+    void moveBackward(bool start) {
+        permanentMoveBackward = start;
+    }
+
+    void handleRotateLeft() {
+        if (permanentRotateLeft) {
+            rotateTo = rotate - 5;
+        }
+    }
+
+    void handleRotateRight() {
+        if (permanentRotateRight) {
+            rotateTo = rotate + 5;
+        }
+    }
+
+    void handleMoveForward() {
+        if (permanentMoveForward) {
+            num rad = (2*Math.PI*rotate) / 360;
+            moveToX = x+((moveSpeed)*Math.cos(rad));
+            moveToY = y+((moveSpeed)*Math.sin(rad));
+        }
+    }
+
+    void handleMoveBackward() {
+        if (permanentMoveBackward) {
+            num rad = (2*Math.PI*rotate) / 360;
+            moveToX = x-((moveSpeed)*Math.cos(rad));
+            moveToY = y-((moveSpeed)*Math.sin(rad));
+        }
     }
 }

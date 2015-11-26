@@ -11,6 +11,13 @@ part 'Engine.dart';
 part 'Game.dart';
 
 void main() {
+
+    const int keyUp = 87; // w
+    const int keyDown = 83 ; // s
+    const int keyLeft = 65; // a
+    const int keyRight = 68; // d
+    const int keyFire = 32; // space
+
     Game game = new Game(
         x: 500, y: 500
     );
@@ -34,35 +41,50 @@ void main() {
         rotationValue.text = fighterRotation.value;
     });
 
-
     ButtonElement move = new ButtonElement();
     move.text = "move";
     move.onClick.listen((e){
-        game.fighter.move();
+        game.fighter.moveForward();
     });
 
-    document.body.onKeyPress.listen((e){
+    document.body.onKeyDown.listen((e){
     	var keyEvent = new KeyEvent.wrap(e);
-    	print(keyEvent.keyCode);
-        print(KeyCode);
-
-        const int up = 119; // w
-        const int down = 115; // s
-        const int left = 97; // a
-        const int right = 100; // d
-
         switch(keyEvent.keyCode){
-            case up:
-                game.fighter.moveForward();
+            case keyUp:
+                game.fighter.moveForward(true);
                 break;
-            case down:
-                game.fighter.moveBackward();
+            case keyDown:
+                game.fighter.moveBackward(true);
                 break;
-            case left:
-                game.fighter.rotateLeft();
+            case keyLeft:
+                game.fighter.rotateLeft(true);
                 break;
-            case right:
-                game.fighter.rotateRight();
+            case keyRight:
+                game.fighter.rotateRight(true);
+                break;
+            case keyFire:
+                game.fighter.fire();
+                break;
+        }
+    });
+
+    document.body.onKeyUp.listen((e){
+        var keyEvent = new KeyEvent.wrap(e);
+        switch(keyEvent.keyCode){
+            case keyUp:
+                game.fighter.moveForward(false);
+                break;
+            case keyDown:
+                game.fighter.moveBackward(false);
+                break;
+            case keyLeft:
+                game.fighter.rotateLeft(false);
+                break;
+            case keyRight:
+                game.fighter.rotateRight(false);
+                break;
+            case keyFire:
+                game.fighter.fire();
                 break;
         }
     });
