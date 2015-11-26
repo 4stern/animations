@@ -3,6 +3,9 @@ library animations;
 import 'dart:html';
 import 'dart:math' as Math;
 // import 'dart:async';
+
+part 'steering/SteeringConnector.dart';
+part 'steering/KeyboardSteering.dart';
 part 'models/Renderable.dart';
 part 'models/Bullet.dart';
 part 'models/Circle.dart';
@@ -10,74 +13,14 @@ part 'models/Fighter.dart';
 part 'Engine.dart';
 part 'Game.dart';
 
-class SteeringConnector {
-
-    Fighter fighter;
-    const int keyUp = 87; // w
-    const int keyDown = 83 ; // s
-    const int keyLeft = 65; // a
-    const int keyRight = 68; // d
-    const int keyFire = 32; // space
-
-    SteeringConnector(this.fighter);
-
-}
-
 void main() {
+    Game game = new Game(x: 500, y: 500);
 
-    const int keyUp = 87; // w
-    const int keyDown = 83 ; // s
-    const int keyLeft = 65; // a
-    const int keyRight = 68; // d
-    const int keyFire = 32; // space
-
-    Game game = new Game(
-        x: 500, y: 500
-    );
     Fighter user = game.addFighter(100, 100);
-    game.addFighter(200, 200);
+    Fighter opponent = game.addFighter(200, 200);
 
-    document.body.onKeyDown.listen((e){
-    	var keyEvent = new KeyEvent.wrap(e);
-        switch(keyEvent.keyCode){
-            case keyUp:
-                user.moveForward(true);
-                break;
-            case keyDown:
-                user.moveBackward(true);
-                break;
-            case keyLeft:
-                user.rotateLeft(true);dwa
-                break;
-            case keyRight:
-                user.rotateRight(true);
-                break;
-            case keyFire:
-                user.fire(true);
-                break;
-        }
-    });
-
-    document.body.onKeyUp.listen((e){
-        var keyEvent = new KeyEvent.wrap(e);
-        switch(keyEvent.keyCode){
-            case keyUp:
-                user.moveForward(false);
-                break;
-            case keyDown:
-                user.moveBackward(false);
-                break;
-            case keyLeft:
-                user.rotateLeft(false);
-                break;
-            case keyRight:
-                user.rotateRight(false);
-                break;
-            case keyFire:
-                user.fire(false);
-                break;
-        }
-    });
+    new KeyboardSteering(user);
+    new KeyboardSteering(opponent, up: 38, down: 40, left: 37, right:39, fire: 96);
 
     game.start();
 }
