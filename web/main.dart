@@ -21,26 +21,26 @@ void main() {
     Game game = new Game(
         x: 500, y: 500
     );
-    game.addFighter(100, 100);
+    Fighter user = game.addFighter(100, 100);
     game.addFighter(200, 200);
 
     document.body.onKeyDown.listen((e){
     	var keyEvent = new KeyEvent.wrap(e);
         switch(keyEvent.keyCode){
             case keyUp:
-                game.fighter.moveForward(true);
+                user.moveForward(true);
                 break;
             case keyDown:
-                game.fighter.moveBackward(true);
+                user.moveBackward(true);
                 break;
             case keyLeft:
-                game.fighter.rotateLeft(true);
+                user.rotateLeft(true);
                 break;
             case keyRight:
-                game.fighter.rotateRight(true);
+                user.rotateRight(true);
                 break;
             case keyFire:
-                game.fighter.fire(true);
+                user.fire(true);
                 break;
         }
     });
@@ -49,19 +49,19 @@ void main() {
         var keyEvent = new KeyEvent.wrap(e);
         switch(keyEvent.keyCode){
             case keyUp:
-                game.fighter.moveForward(false);
+                user.moveForward(false);
                 break;
             case keyDown:
-                game.fighter.moveBackward(false);
+                user.moveBackward(false);
                 break;
             case keyLeft:
-                game.fighter.rotateLeft(false);
+                user.rotateLeft(false);
                 break;
             case keyRight:
-                game.fighter.rotateRight(false);
+                user.rotateRight(false);
                 break;
             case keyFire:
-                game.fighter.fire(false);
+                user.fire(false);
                 break;
         }
     });
