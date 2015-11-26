@@ -182,19 +182,19 @@ class Fighter implements Renderable{
     }
 
     void handleRotateLeft() {
-        if (permanentRotateLeft) {
+        if (permanentRotateLeft && !permanentRotateRight) {
             rotateTo = rotate - 5;
         }
     }
 
     void handleRotateRight() {
-        if (permanentRotateRight) {
+        if (permanentRotateRight && !permanentRotateLeft) {
             rotateTo = rotate + 5;
         }
     }
 
     void handleMoveForward() {
-        if (permanentMoveForward) {
+        if (permanentMoveForward && !permanentMoveBackward) {
             num rad = (2*Math.PI*rotate) / 360;
             moveToX = x+((moveSpeed)*Math.cos(rad));
             moveToY = y+((moveSpeed)*Math.sin(rad));
@@ -202,7 +202,7 @@ class Fighter implements Renderable{
     }
 
     void handleMoveBackward() {
-        if (permanentMoveBackward) {
+        if (permanentMoveBackward && !permanentMoveForward) {
             num rad = (2*Math.PI*rotate) / 360;
             moveToX = x-((moveSpeed)*Math.cos(rad));
             moveToY = y-((moveSpeed)*Math.sin(rad));
