@@ -24,29 +24,6 @@ void main() {
     game.addFighter(100, 100);
     game.addFighter(200, 200);
 
-    DivElement rotationValue = new DivElement();
-    ButtonElement fire = new ButtonElement();
-    fire.text = "fire";
-    fire.onClick.listen((e){
-        game.fighter.fire();
-    });
-    InputElement fighterRotation = new InputElement();
-    fighterRotation.type = "range";
-    fighterRotation.min = "0";
-    fighterRotation.max = "1080";
-    fighterRotation.step = "1";
-    fighterRotation.value = "0";
-    fighterRotation.onInput.listen((e){
-        game.fighter.toRotate(int.parse(fighterRotation.value));
-        rotationValue.text = fighterRotation.value;
-    });
-
-    ButtonElement move = new ButtonElement();
-    move.text = "move";
-    move.onClick.listen((e){
-        game.fighter.moveForward();
-    });
-
     document.body.onKeyDown.listen((e){
     	var keyEvent = new KeyEvent.wrap(e);
         switch(keyEvent.keyCode){
@@ -63,7 +40,7 @@ void main() {
                 game.fighter.rotateRight(true);
                 break;
             case keyFire:
-                game.fighter.fire();
+                game.fighter.fire(true);
                 break;
         }
     });
@@ -84,16 +61,10 @@ void main() {
                 game.fighter.rotateRight(false);
                 break;
             case keyFire:
-                game.fighter.fire();
+                game.fighter.fire(false);
                 break;
         }
     });
-
-
-    document.body.nodes.add(fighterRotation);
-    document.body.nodes.add(rotationValue);
-    document.body.nodes.add(fire);
-    document.body.nodes.add(move);
 
     game.start();
 }

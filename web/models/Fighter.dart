@@ -46,6 +46,7 @@ class Fighter implements Renderable{
         handleRotateRight();
         handleMoveForward();
         handleMoveBackward();
+        handleFire();
 
         _calculateRotating(delta);
         _calculateMoving(delta);
@@ -89,7 +90,6 @@ class Fighter implements Renderable{
         if (rotate != rotateTo) {
     	    rotating = true;
             rotate += (rotationSpeed) / delta;
-            print('rotate: '+rotate.toString());
             if (rotate > rotateTo) {
                 rotate = rotateTo;
             }
@@ -133,27 +133,37 @@ class Fighter implements Renderable{
     	}
     }
 
-    void fire() {
-        if (bullet == null) {
-            num rad = (2*Math.PI*rotate) / 360;
-            bullet = new Bullet(
-                from_x: x, from_y: y,
-                to_x: x+((headRadius+bulletRange)*Math.cos(rad)),
-                to_y: y+((headRadius+bulletRange)*Math.sin(rad)),
-                r:2, speed: 500/1000
-            );
+    void fire(bool start) {
+        permanentFire = start;
+    }
+
+    void handleFire() {
+        if (permanentFire) {
+            if (bullet != null && bullet.finished) {
+                bullet = null;
+            }
+
+            if (bullet == null) {
+                num rad = (2*Math.PI*rotate) / 360;
+                bullet = new Bullet(
+                    from_x: x, from_y: y,
+                    to_x: x+((headRadius+bulletRange)*Math.cos(rad)),
+                    to_y: y+((headRadius+bulletRange)*Math.sin(rad)),
+                    r:2, speed: 500/1000
+                );
+            }
         }
     }
 
     void toRotate(num newRotateTo) {
         rotateTo = newRotateTo;
-        print('toRotate: '+rotateTo.toString());
     }
 
     bool permanentRotateLeft = false;
     bool permanentRotateRight = false;
     bool permanentMoveForward = false;
     bool permanentMoveBackward = false;
+    bool permanentFire = false;
 
     void rotateLeft(bool start) {
         permanentRotateLeft = start;

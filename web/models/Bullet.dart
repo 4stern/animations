@@ -63,8 +63,8 @@ class Bullet implements Renderable{
                 current_y = to_y;
             }
         }
-
-        if (current_y == to_y && current_x == to_x) {
+        
+        if (current_y.floor() == to_y.floor() && current_x.floor() == to_x.floor()) {
             finished = true;
         }
     }
