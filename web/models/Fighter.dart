@@ -15,6 +15,12 @@ class Fighter implements Renderable{
     num rotate = 90;
     num rotationSpeed = 180;
     num rotateTo = 90;
+    bool rotating = false;
+
+    num moveToX = 2.0;
+    num moveToY = 2.0;
+    num moveSpeed = 100;
+    bool moving = false;
 
     String headFillColor = 'red';
     String leftArmFillColor = '#B90000';
@@ -31,12 +37,20 @@ class Fighter implements Renderable{
         rightArm.fillColor = rightArmFillColor;
     }
 
-    int counter = 0;
     void render(CanvasRenderingContext2D context2D, num delta) {
         num radHead = (2*Math.PI*rotate) / 360;
         num radLeft = (2*Math.PI*(rotate-90)) / 360;
         num radRight = (2*Math.PI*(rotate+90)) / 360;
 
+        renderBody(context2D, delta, radLeft, radRight);
+	renderOrientationStroke(context2D, delta, radHead);
+        renderBullets(context2D, delta);
+
+        calculateRotating(delta);
+	calculateMoving(delta);
+    }
+
+    void renderBody(CanvasRenderingContext2D context2D, num delta, num radLeft, num radRight) {
         leftArm.x = x+(headRadius*Math.cos(radLeft));
         leftArm.y = y+(headRadius*Math.sin(radLeft));
         leftArm.render(context2D, delta);
@@ -46,27 +60,43 @@ class Fighter implements Renderable{
         rightArm.render(context2D, delta);
 
         head.render(context2D, delta);
+    }
 
-
-        context2D.beginPath();
+    void renderOrientationStroke(CanvasRenderingContext2D context2D, num delta, num radHead) {
+	context2D.beginPath();
         context2D.moveTo(x,y);
         context2D.lineTo(x+(headRadius*Math.cos(radHead)), y+(headRadius*Math.sin(radHead)));
         context2D.stroke();
+    }
 
-        if (bullet != null) {
+    void renderBullets(CanvasRenderingContext2D context2D, num delta) {
+	if (bullet != null) {
             bullet.render(context2D, delta);
             if (bullet.finished) {
                 bullet = null;
             }
         }
+    }
 
-        if (rotate != rotateTo) {
+    void calculateRotating(num delta) {
+	if (rotate != rotateTo) {
+	    rotating = true;
             rotate += (rotationSpeed) / delta;
             print('rotate: '+rotate.toString());
             if (rotate > rotateTo) {
                 rotate = rotateTo;
             }
-        }
+        } else {
+            rotating = false;
+	}
+    }
+
+    void calculateMoving(num delta) {
+	if (x != moveToX || y != moveToY) {
+	    moving = true;
+	} else {
+	    moving = false;
+	}
     }
 
     void fire() {
@@ -83,5 +113,9 @@ class Fighter implements Renderable{
     void toRotate(num newRotateTo) {
         rotateTo = newRotateTo;
         print('toRotate: '+rotateTo.toString());
+    }
+
+    void move() {
+	
     }
 }
