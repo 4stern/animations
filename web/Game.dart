@@ -9,7 +9,7 @@ class Game extends Engine {
     //     r:2, speed: 500/1000);
 
     Fighter fighter;
-    List<Renderables> renderables = new List<Renderables>();
+    List<Renderable> renderables = new List<Renderable>();
 
     Game({int x, int y}) {
         this.x = x;

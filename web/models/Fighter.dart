@@ -19,7 +19,7 @@ class Fighter implements Renderable{
 
     num moveToX = 2.0;
     num moveToY = 2.0;
-    num moveSpeed = 100;
+    num moveSpeed = 1.5;
     bool moving = false;
 
     String headFillColor = 'red';
@@ -38,19 +38,18 @@ class Fighter implements Renderable{
     }
 
     void render(CanvasRenderingContext2D context2D, num delta) {
-        num radHead = (2*Math.PI*rotate) / 360;
+        _renderBody(context2D, delta);
+        _renderOrientationStroke(context2D, delta);
+        _renderBullets(context2D, delta);
+
+        _calculateRotating(delta);
+        _calculateMoving(delta);
+    }
+
+    void _renderBody(CanvasRenderingContext2D context2D, num delta) {
         num radLeft = (2*Math.PI*(rotate-90)) / 360;
         num radRight = (2*Math.PI*(rotate+90)) / 360;
 
-        renderBody(context2D, delta, radLeft, radRight);
-	renderOrientationStroke(context2D, delta, radHead);
-        renderBullets(context2D, delta);
-
-        calculateRotating(delta);
-	calculateMoving(delta);
-    }
-
-    void renderBody(CanvasRenderingContext2D context2D, num delta, num radLeft, num radRight) {
         leftArm.x = x+(headRadius*Math.cos(radLeft));
         leftArm.y = y+(headRadius*Math.sin(radLeft));
         leftArm.render(context2D, delta);
@@ -59,18 +58,21 @@ class Fighter implements Renderable{
         rightArm.y = y+(headRadius*Math.sin(radRight));
         rightArm.render(context2D, delta);
 
+        head.x = x;
+        head.y = y;
         head.render(context2D, delta);
     }
 
-    void renderOrientationStroke(CanvasRenderingContext2D context2D, num delta, num radHead) {
-	context2D.beginPath();
-        context2D.moveTo(x,y);
-        context2D.lineTo(x+(headRadius*Math.cos(radHead)), y+(headRadius*Math.sin(radHead)));
-        context2D.stroke();
+    void _renderOrientationStroke(CanvasRenderingContext2D context2D, num delta) {
+       num radHead = (2*Math.PI*rotate) / 360;
+       context2D.beginPath();
+       context2D.moveTo(x,y);
+       context2D.lineTo(x+(headRadius*Math.cos(radHead)), y+(headRadius*Math.sin(radHead)));
+       context2D.stroke();
     }
 
-    void renderBullets(CanvasRenderingContext2D context2D, num delta) {
-	if (bullet != null) {
+    void _renderBullets(CanvasRenderingContext2D context2D, num delta) {
+        if (bullet != null) {
             bullet.render(context2D, delta);
             if (bullet.finished) {
                 bullet = null;
@@ -78,9 +80,9 @@ class Fighter implements Renderable{
         }
     }
 
-    void calculateRotating(num delta) {
-	if (rotate != rotateTo) {
-	    rotating = true;
+    void _calculateRotating(num delta) {
+        if (rotate != rotateTo) {
+    	    rotating = true;
             rotate += (rotationSpeed) / delta;
             print('rotate: '+rotate.toString());
             if (rotate > rotateTo) {
@@ -88,15 +90,42 @@ class Fighter implements Renderable{
             }
         } else {
             rotating = false;
-	}
+    	}
     }
 
-    void calculateMoving(num delta) {
-	if (x != moveToX || y != moveToY) {
-	    moving = true;
-	} else {
-	    moving = false;
-	}
+    void _calculateMoving(num delta) {
+        if (x != moveToX || y != moveToY) {
+    	    moving = true;
+    	    if (x != moveToX) {
+                if (moveToX-x < 0) {
+        		    x += 1;
+        		    if (x > moveToX) {
+        			x = moveToX;
+        		    }
+        		} else {
+        		    x -= 1;
+        		    if (x < moveToX) {
+        			x = moveToX;
+        		    }
+        		}
+    	    }
+
+            if (y != moveToY) {
+                if (moveToY-y < 0) {
+                    y += 1;
+                    if (y > moveToY) {
+                        y = moveToY;
+                    }
+        		} else {
+        		    y -= 1;
+                    if (y < moveToY) {
+                        y = moveToY;
+                    }
+        		}
+    	    }
+    	} else {
+    	    moving = false;
+    	}
     }
 
     void fire() {
@@ -106,7 +135,8 @@ class Fighter implements Renderable{
                 from_x: x, from_y: y,
                 to_x: x+((headRadius+bulletRange)*Math.cos(rad)),
                 to_y: y+((headRadius+bulletRange)*Math.sin(rad)),
-                r:2, speed: 500/1000);
+                r:2, speed: 500/1000
+            );
         }
     }
 
@@ -115,7 +145,22 @@ class Fighter implements Renderable{
         print('toRotate: '+rotateTo.toString());
     }
 
-    void move() {
-	
+    void rotateLeft() {
+        rotateTo = rotate - 5;
+    }
+    void rotateRight() {
+        rotateTo = rotate + 5;
+    }
+
+    void moveForward() {
+        num rad = (2*Math.PI*rotate) / 360;
+        moveToX = x+((moveSpeed)*Math.cos(rad));
+        moveToY = y+((moveSpeed)*Math.sin(rad));
+    }
+
+    void moveBackward() {
+        num rad = (2*Math.PI*rotate) / 360;
+        moveToX = x-((moveSpeed)*Math.cos(rad));
+        moveToY = y-((moveSpeed)*Math.sin(rad));
     }
 }
