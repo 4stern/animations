@@ -10,6 +10,19 @@ part 'models/Fighter.dart';
 part 'Engine.dart';
 part 'Game.dart';
 
+class SteeringConnector {
+
+    Fighter fighter;
+    const int keyUp = 87; // w
+    const int keyDown = 83 ; // s
+    const int keyLeft = 65; // a
+    const int keyRight = 68; // d
+    const int keyFire = 32; // space
+
+    SteeringConnector(this.fighter);
+
+}
+
 void main() {
 
     const int keyUp = 87; // w
@@ -34,7 +47,7 @@ void main() {
                 user.moveBackward(true);
                 break;
             case keyLeft:
-                user.rotateLeft(true);
+                user.rotateLeft(true);dwa
                 break;
             case keyRight:
                 user.rotateRight(true);
