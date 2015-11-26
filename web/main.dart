@@ -16,8 +16,8 @@ part 'Game.dart';
 void main() {
     Game game = new Game(x: 500, y: 500);
 
-    Fighter user = game.addFighter(100, 100);
-    Fighter opponent = game.addFighter(200, 200);
+    Fighter user = game.addFighter(100, 100, color: "red");
+    Fighter opponent = game.addFighter(200, 200, color: "blue");
 
     new KeyboardSteering(user);
     new KeyboardSteering(opponent, up: 38, down: 40, left: 37, right:39, fire: 96);

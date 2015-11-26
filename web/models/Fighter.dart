@@ -26,15 +26,18 @@ class Fighter implements Renderable{
     String leftArmFillColor = '#B90000';
     String rightArmFillColor = '#FF4F4F';
 
+    bool permanentRotateLeft = false;
+    bool permanentRotateRight = false;
+    bool permanentMoveForward = false;
+    bool permanentMoveBackward = false;
+    bool permanentFire = false;
+
     Fighter({this.x, this.y}){
         head = new Circle(x: x, y: y, r: headRadius);
         leftArm = new Circle(x: x+headRadius, y: y, r: headRadius/2);
         rightArm = new Circle(x: x-headRadius, y: y, r: headRadius/2);
 
         head.lineWidth = 0.5;
-        head.fillColor = headFillColor;
-        leftArm.fillColor = leftArmFillColor;
-        rightArm.fillColor = rightArmFillColor;
     }
 
     void render(CanvasRenderingContext2D context2D, num delta) {
@@ -55,6 +58,10 @@ class Fighter implements Renderable{
     void _renderBody(CanvasRenderingContext2D context2D, num delta) {
         num radLeft = (2*Math.PI*(rotate-90)) / 360;
         num radRight = (2*Math.PI*(rotate+90)) / 360;
+
+        head.fillColor = headFillColor;
+        leftArm.fillColor = leftArmFillColor;
+        rightArm.fillColor = rightArmFillColor;
 
         leftArm.x = x+(headRadius*Math.cos(radLeft));
         leftArm.y = y+(headRadius*Math.sin(radLeft));
@@ -158,12 +165,6 @@ class Fighter implements Renderable{
     void toRotate(num newRotateTo) {
         rotateTo = newRotateTo;
     }
-
-    bool permanentRotateLeft = false;
-    bool permanentRotateRight = false;
-    bool permanentMoveForward = false;
-    bool permanentMoveBackward = false;
-    bool permanentFire = false;
 
     void rotateLeft(bool start) {
         permanentRotateLeft = start;
