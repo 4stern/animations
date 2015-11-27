@@ -6,6 +6,7 @@ import 'dart:math' as Math;
 
 part 'steering/SteeringConnector.dart';
 part 'steering/KeyboardSteering.dart';
+part 'steering/AISteering.dart';
 part 'models/Renderable.dart';
 part 'models/Bullet.dart';
 part 'models/Circle.dart';
@@ -17,12 +18,13 @@ void main() {
     Game game = new Game(x: 500, y: 500);
 
     Fighter user = game.addFighter(100, 100, color: "red");
-    Fighter opponent = game.addFighter(200, 200, color: "blue");
+    Fighter opponent = game.addFighter(400, 400, color: "blue");
 
     new KeyboardSteering(user);
     new KeyboardSteering(opponent, up: 38, down: 40, left: 37, right:39, fire: 96);
+    new AISteering(opponent, new AIEnvironment(game));
 
     game.start();
     user.moveTo(100, 100);
-    opponent.moveTo(200, 200);
+    opponent.moveTo(400, 400);
 }

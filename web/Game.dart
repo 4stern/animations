@@ -2,6 +2,7 @@ part of animations;
 
 class Game extends Engine {
     List<Renderable> renderables = new List<Renderable>();
+    List<Fighter> fighters = new List<Fighter>();
 
     Game({int x, int y}) {
         this.x = x;
@@ -29,6 +30,7 @@ class Game extends Engine {
             f.leftArmFillColor = color;
             f.rightArmFillColor = color;
         }
+        fighters.add(f);
     	addRenderable(f);
         return f;
     }

@@ -214,4 +214,10 @@ class Fighter implements Renderable{
             moveToY = y-((moveSpeed)*Math.sin(rad));
         }
     }
+
+    num getDistanceTo(Fighter fighter) {
+        num fx = fighter.x;
+        num fy = fighter.y;
+        return Math.sqrt( ((x-fx)*(x-fx)) + ((y-fy)*(y-fy)) );
+    }
 }
