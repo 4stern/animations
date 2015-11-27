@@ -23,12 +23,15 @@ class Game extends Engine {
         renderables.add(renderable);
     }
 
-    Fighter addFighter(num xPos, num yPos, {String color}) {
+    Fighter addFighter(num xPos, num yPos, {String color, num speed}) {
     	Fighter f = new Fighter(x: xPos, y: yPos);
         if (color != null) {
             f.headFillColor = color;
             f.leftArmFillColor = color;
             f.rightArmFillColor = color;
+        }
+        if (speed != null) {
+            f.moveSpeed = speed;
         }
         fighters.add(f);
     	addRenderable(f);

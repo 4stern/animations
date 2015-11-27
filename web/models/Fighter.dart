@@ -220,4 +220,10 @@ class Fighter implements Renderable{
         num fy = fighter.y;
         return Math.sqrt( ((x-fx)*(x-fx)) + ((y-fy)*(y-fy)) );
     }
+
+    num getDistanceToNav(NavigationPoint navPoint) {
+        num fx = navPoint.x;
+        num fy = navPoint.y;
+        return Math.sqrt( ((x-fx)*(x-fx)) + ((y-fy)*(y-fy)) );
+    }
 }
